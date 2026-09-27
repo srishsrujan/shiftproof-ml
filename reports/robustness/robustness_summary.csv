@@ -1,0 +1,4 @@
+test,rows,failed
+heavy_missingness,1800,0
+shifted_class_balance,2540,0
+dropped_columns,1800,0

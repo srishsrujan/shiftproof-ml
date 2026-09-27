@@ -1,0 +1,105 @@
+{
+  "summary": {
+    "review_features": 3,
+    "monitor_features": 0,
+    "stable_features": 13
+  },
+  "features": [
+    {
+      "feature": "queue_length",
+      "kind": "numeric",
+      "score": 1.5664722979330064,
+      "status": "review"
+    },
+    {
+      "feature": "system_load",
+      "kind": "numeric",
+      "score": 0.554560440069078,
+      "status": "review"
+    },
+    {
+      "feature": "historical_sla_rate",
+      "kind": "numeric",
+      "score": 0.4410821620790786,
+      "status": "review"
+    },
+    {
+      "feature": "customer_complexity_score",
+      "kind": "numeric",
+      "score": 0.00917071237021501,
+      "status": "stable"
+    },
+    {
+      "feature": "weekday",
+      "kind": "numeric",
+      "score": 0.008229204239362358,
+      "status": "stable"
+    },
+    {
+      "feature": "agent_experience_months",
+      "kind": "numeric",
+      "score": 0.007150429633502568,
+      "status": "stable"
+    },
+    {
+      "feature": "estimated_work_hours",
+      "kind": "numeric",
+      "score": 0.006452078318129312,
+      "status": "stable"
+    },
+    {
+      "feature": "days_since_last_request",
+      "kind": "numeric",
+      "score": 0.005228606187494686,
+      "status": "stable"
+    },
+    {
+      "feature": "customer_tier",
+      "kind": "categorical",
+      "score": 0.003879921329493649,
+      "status": "stable"
+    },
+    {
+      "feature": "hour_of_day",
+      "kind": "numeric",
+      "score": 0.003497483842933746,
+      "status": "stable"
+    },
+    {
+      "feature": "request_type",
+      "kind": "categorical",
+      "score": 0.0025945297640719324,
+      "status": "stable"
+    },
+    {
+      "feature": "priority",
+      "kind": "categorical",
+      "score": 0.002453532557617508,
+      "status": "stable"
+    },
+    {
+      "feature": "channel",
+      "kind": "categorical",
+      "score": 0.002190186496787645,
+      "status": "stable"
+    },
+    {
+      "feature": "attachments_count",
+      "kind": "numeric",
+      "score": 0.0002854998540495413,
+      "status": "stable"
+    },
+    {
+      "feature": "region",
+      "kind": "categorical",
+      "score": 2.6431625009214588e-05,
+      "status": "stable"
+    },
+    {
+      "feature": "is_holiday",
+      "kind": "numeric",
+      "score": 0.0,
+      "status": "stable"
+    }
+  ]
+}
