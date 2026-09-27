@@ -1,13 +1,28 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+
+# Virtual environment
 .venv/
+venv/
 env/
-.pytest_cache/
+
+# IDE
+.vscode/
+
+# OS
 .DS_Store
-artifacts/*.joblib
-artifacts/*.json
-artifacts/*.csv
-reports/*.csv
-reports/*.json
-reports/*.png
-data/raw/*.csv
+Thumbs.db
+
+# Python packaging
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets
+
+*.key
+*.pem
