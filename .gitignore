@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+env/
+.pytest_cache/
+.DS_Store
+artifacts/*.joblib
+artifacts/*.json
+artifacts/*.csv
+reports/*.csv
+reports/*.json
+reports/*.png
+data/raw/*.csv

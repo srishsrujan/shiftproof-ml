@@ -1,0 +1,4 @@
+request_id,created_at,request_type,priority,channel,customer_tier,region,agent_experience_months,queue_length,estimated_work_hours,historical_sla_rate,attachments_count,is_holiday,system_load,customer_complexity_score,hour_of_day,weekday,days_since_last_request
+REQ-DEMO-001,2026-08-01T16:00:00,support,URGENT,PORTAL,STANDARD,east,12,31,4.5,0.70,1,0,0.90,0.80,16,2,2
+REQ-DEMO-002,2026-05-14T10:20:00,billing,low,email,premium,north,44,5,1.2,0.94,0,0,0.35,0.25,10,3,8
+REQ-DEMO-003,2026-07-20T19:30:00,maintenance,high,phone,enterprise,west,,42,8.0,0.61,3,1,1.05,0.88,19,0,1
