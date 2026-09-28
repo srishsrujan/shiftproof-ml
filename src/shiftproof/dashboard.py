@@ -4,8 +4,8 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from .config import ARTIFACT_DIR, REPORT_DIR
-from .predictor import Predictor
+from shiftproof.config import ARTIFACT_DIR, REPORT_DIR
+from shiftproof.predictor import Predictor
 
 ROOT = Path(__file__).resolve().parents[2]
 
