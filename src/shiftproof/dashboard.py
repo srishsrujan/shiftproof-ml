@@ -13,10 +13,12 @@ st.set_page_config(page_title="ShiftProof", page_icon="🛡️", layout="wide")
 st.title("🛡️ ShiftProof")
 st.caption("Predict service-deadline misses, quantify confidence, and send uncertain cases to human review.")
 
+st.success("Dashboard loaded successfully!")
+
 try:
     predictor = Predictor()
 except Exception as exc:
-    st.error(str(exc))
+    st.error(f"Predictor error: {exc}")
     st.stop()
 
 with st.sidebar:
