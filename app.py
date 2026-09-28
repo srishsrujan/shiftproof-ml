@@ -1,9 +1,4 @@
-import sys
-from pathlib import Path
+import streamlit as st
 
-ROOT = Path(__file__).resolve().parent
-SRC = ROOT / "src"
-
-sys.path.insert(0, str(SRC))
-
-from shiftproof import dashboard
+st.title("ShiftProof Test")
+st.write("If you can see this, Streamlit deployment is working.")
