@@ -1,12 +1,12 @@
 import sys
 from pathlib import Path
 
-import streamlit as st
-
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "src"
 
 sys.path.insert(0, str(SRC))
+
+import streamlit as st
 
 st.set_page_config(
     page_title="ShiftProof",
@@ -15,12 +15,9 @@ st.set_page_config(
 )
 
 st.title("🛡️ ShiftProof")
-st.write("Loading dashboard...")
 
 try:
-    import shiftproof.dashboard
-    st.success("Dashboard loaded successfully!")
+    exec((SRC / "shiftproof" / "dashboard.py").read_text(encoding="utf-8"))
 except Exception as exc:
-    st.error("Dashboard failed to load.")
+    st.error("Dashboard error")
     st.exception(exc)
-    st.stop()
