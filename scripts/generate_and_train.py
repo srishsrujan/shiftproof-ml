@@ -2,11 +2,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 
 from data.generate_data import generate_requests
-from src.shiftproof.config import DATA_DIR
-from src.shiftproof.training import train_all
+from shiftproof_2.config import DATA_DIR
+from shiftproof_2.training import train_all
 
 
 def main():
