@@ -18,8 +18,9 @@ st.title("🛡️ ShiftProof")
 st.write("Loading dashboard...")
 
 try:
-    from shiftproof import dashboard
+    import shiftproof.dashboard
+    st.success("Dashboard loaded successfully!")
 except Exception as exc:
-    st.error("ShiftProof dashboard failed to load.")
+    st.error("Dashboard failed to load.")
     st.exception(exc)
     st.stop()
