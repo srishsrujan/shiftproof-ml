@@ -2,7 +2,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 
-from .config import ARTIFACT_DIR
+from .config import ARTIFACT_DIR, ID_COL
 from .data_pipeline import clean_input
 
 
@@ -20,4 +20,7 @@ class Predictor:
 
     def predict_frame(self, frame: pd.DataFrame):
         data = clean_input(frame)
-        return self.bundle.predict(data)
+        result = self.bundle.predict(data)
+        if ID_COL in frame:
+            result.insert(0, ID_COL, frame[ID_COL].to_numpy())
+        return result

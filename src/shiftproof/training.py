@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from .calibration import PlattCalibrator, choose_abstention_threshold
-from .config import ARTIFACT_DIR, CATEGORICAL_FEATURES, FEATURES, NUMERIC_FEATURES, REPORT_DIR, TARGET
+from .config import ARTIFACT_DIR, CATEGORICAL_FEATURES, FEATURES, NUMERIC_FEATURES, REPORT_DIR, TARGET, TIME_COL
 from .data_pipeline import build_preprocessor, prepare_xy, time_split
 from .drift import drift_report, save_drift_json
 from .evaluation import analyse_failures, binary_metrics, confidence_calibration, evaluate_with_abstention, expected_calibration_error, slice_metrics
@@ -13,7 +13,7 @@ from .models import NumpyLogisticRegression, build_stronger_models
 
 
 class FinalModelBundle:
-    def __init__(self, preprocessor, model, calibrator, abstain_threshold, model_name, version="shiftproof-v1"):
+    def __init__(self, preprocessor, model, calibrator, abstain_threshold, model_name, version="placement-v1"):
         self.preprocessor = preprocessor
         self.model = model
         self.calibrator = calibrator
@@ -27,16 +27,14 @@ class FinalModelBundle:
         raw_p = self.model.predict_proba(xt)[:, 1]
         p = self.calibrator.transform(raw_p)
         confidence = np.maximum(p, 1 - p)
-        prediction = np.where(p >= 0.5, "late", "on_time")
-        review = confidence < self.abstain_threshold
-        decision = prediction.astype(object)
-        decision[review] = "uncertain - send for review"
+        prediction = np.where(p >= 0.5, "placement_ready", "not_ready")
+        category = np.select([p >= 0.70, p >= 0.45], ["Ready", "Developing"], default="Needs support")
         return pd.DataFrame(
             {
-                "probability_late": p,
+            "readiness_score": p,
                 "confidence": confidence,
                 "prediction": prediction,
-                "decision": decision,
+            "readiness_category": category,
                 "model_version": self.version,
                 "model_name": self.model_name,
             }
@@ -119,9 +117,8 @@ def train_all(csv_path: Path):
     pd.concat([metrics, pd.DataFrame([final_metrics])], ignore_index=True).to_csv(REPORT_DIR / "metrics.csv", index=False)
 
     test_frame = splits.test.reset_index(drop=True).copy()
-    test_frame["time_period"] = pd.to_datetime(test_frame["created_at"]).dt.to_period("M").astype(str)
-    test_frame["rare_case"] = np.where(test_frame["priority"].astype("string").str.lower().eq("critical") | test_frame["request_type"].isna(), "rare", "common")
-    slice_df = slice_metrics(test_frame, calibrated_test_p, ["request_type", "priority", "customer_tier", "region", "time_period", "rare_case"])
+    test_frame["cohort"] = test_frame[TIME_COL].astype(int).astype(str)
+    slice_df = slice_metrics(test_frame, calibrated_test_p, ["branch", "cohort"])
     slice_df.to_csv(REPORT_DIR / "slice_metrics.csv", index=False)
 
     failures = analyse_failures(test_frame, calibrated_test_p)

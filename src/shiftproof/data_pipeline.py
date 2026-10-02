@@ -23,9 +23,9 @@ def clean_input(df: pd.DataFrame) -> pd.DataFrame:
     if TIME_COL not in data:
         raise ValueError(f"Missing required column: {TIME_COL}")
 
-    data[TIME_COL] = pd.to_datetime(data[TIME_COL], errors="coerce")
+    data[TIME_COL] = pd.to_numeric(data[TIME_COL], errors="coerce")
     if data[TIME_COL].isna().any():
-        raise ValueError("created_at contains unparseable timestamps")
+        raise ValueError("graduation_year contains invalid values")
 
     for col in NUMERIC_FEATURES:
         if col in data:
@@ -35,17 +35,6 @@ def clean_input(df: pd.DataFrame) -> pd.DataFrame:
         if col in data:
             data[col] = data[col].astype("string").str.strip().str.lower()
             data[col] = data[col].astype(object).where(pd.notna(data[col]), np.nan)
-
-    if "priority" in data:
-        priority_map = {
-            "urgent": "critical",
-            "critical": "critical",
-            "high": "high",
-            "medium": "medium",
-            "med": "medium",
-            "low": "low",
-        }
-        data["priority"] = data["priority"].map(priority_map).fillna(data["priority"])
 
     # Required feature columns are allowed to be missing at row level; the preprocessor will impute them.
     for col in FEATURES:

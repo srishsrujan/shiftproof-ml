@@ -6,30 +6,24 @@ ARTIFACT_DIR = ROOT / "artifacts"
 REPORT_DIR = ROOT / "reports"
 
 RANDOM_STATE = 42
-TARGET = "late"
-TIME_COL = "created_at"
-ID_COL = "request_id"
+TARGET = "placement_ready"
+TIME_COL = "graduation_year"
+ID_COL = "student_id"
 
 NUMERIC_FEATURES = [
-    "agent_experience_months",
-    "queue_length",
-    "estimated_work_hours",
-    "historical_sla_rate",
-    "attachments_count",
-    "is_holiday",
-    "system_load",
-    "customer_complexity_score",
-    "hour_of_day",
-    "weekday",
-    "days_since_last_request",
+    "cgpa",
+    "aptitude_score",
+    "technical_skills_score",
+    "communication_score",
+    "coding_hours_per_week",
+    "projects_completed",
+    "internships_completed",
+    "certifications_count",
+    "backlogs",
 ]
 
 CATEGORICAL_FEATURES = [
-    "request_type",
-    "priority",
-    "channel",
-    "customer_tier",
-    "region",
+    "branch",
 ]
 
 FEATURES = NUMERIC_FEATURES + CATEGORICAL_FEATURES

@@ -46,9 +46,9 @@ class PlattCalibrator:
         return np.column_stack([1 - p, p])
 
 
-def confidence_from_probability(p_late):
-    p_late = np.asarray(p_late, dtype=float)
-    return np.maximum(p_late, 1 - p_late)
+def confidence_from_probability(probability):
+    probability = np.asarray(probability, dtype=float)
+    return np.maximum(probability, 1 - probability)
 
 
 def choose_abstention_threshold(y_true, calibrated_probability, max_review_rate=0.30, min_review_rate=0.05):

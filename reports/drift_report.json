@@ -1,104 +1,68 @@
 {
   "summary": {
-    "review_features": 3,
+    "review_features": 0,
     "monitor_features": 0,
-    "stable_features": 13
+    "stable_features": 10
   },
   "features": [
     {
-      "feature": "queue_length",
+      "feature": "technical_skills_score",
       "kind": "numeric",
-      "score": 1.5664722979330064,
-      "status": "review"
-    },
-    {
-      "feature": "system_load",
-      "kind": "numeric",
-      "score": 0.554560440069078,
-      "status": "review"
-    },
-    {
-      "feature": "historical_sla_rate",
-      "kind": "numeric",
-      "score": 0.4410821620790786,
-      "status": "review"
-    },
-    {
-      "feature": "customer_complexity_score",
-      "kind": "numeric",
-      "score": 0.00917071237021501,
+      "score": 0.011919624158056343,
       "status": "stable"
     },
     {
-      "feature": "weekday",
+      "feature": "cgpa",
       "kind": "numeric",
-      "score": 0.008229204239362358,
+      "score": 0.007167844232148295,
       "status": "stable"
     },
     {
-      "feature": "agent_experience_months",
+      "feature": "certifications_count",
       "kind": "numeric",
-      "score": 0.007150429633502568,
+      "score": 0.0053401851623204365,
       "status": "stable"
     },
     {
-      "feature": "estimated_work_hours",
+      "feature": "communication_score",
       "kind": "numeric",
-      "score": 0.006452078318129312,
+      "score": 0.0037783553322363796,
       "status": "stable"
     },
     {
-      "feature": "days_since_last_request",
-      "kind": "numeric",
-      "score": 0.005228606187494686,
-      "status": "stable"
-    },
-    {
-      "feature": "customer_tier",
+      "feature": "branch",
       "kind": "categorical",
-      "score": 0.003879921329493649,
+      "score": 0.003622545511390473,
       "status": "stable"
     },
     {
-      "feature": "hour_of_day",
+      "feature": "coding_hours_per_week",
       "kind": "numeric",
-      "score": 0.003497483842933746,
+      "score": 0.0016896392123166718,
       "status": "stable"
     },
     {
-      "feature": "request_type",
-      "kind": "categorical",
-      "score": 0.0025945297640719324,
-      "status": "stable"
-    },
-    {
-      "feature": "priority",
-      "kind": "categorical",
-      "score": 0.002453532557617508,
-      "status": "stable"
-    },
-    {
-      "feature": "channel",
-      "kind": "categorical",
-      "score": 0.002190186496787645,
-      "status": "stable"
-    },
-    {
-      "feature": "attachments_count",
+      "feature": "aptitude_score",
       "kind": "numeric",
-      "score": 0.0002854998540495413,
+      "score": 0.0015611832245646731,
       "status": "stable"
     },
     {
-      "feature": "region",
-      "kind": "categorical",
-      "score": 2.6431625009214588e-05,
-      "status": "stable"
-    },
-    {
-      "feature": "is_holiday",
+      "feature": "backlogs",
       "kind": "numeric",
-      "score": 0.0,
+      "score": 0.0013855799774311968,
+      "status": "stable"
+    },
+    {
+      "feature": "projects_completed",
+      "kind": "numeric",
+      "score": 0.0013741234042383638,
+      "status": "stable"
+    },
+    {
+      "feature": "internships_completed",
+      "kind": "numeric",
+      "score": 0.00010031981885951955,
       "status": "stable"
     }
   ]

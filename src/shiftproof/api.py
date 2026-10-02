@@ -9,29 +9,23 @@ from .config import ARTIFACT_DIR, CATEGORICAL_FEATURES, NUMERIC_FEATURES
 from .drift import drift_report
 from .predictor import Predictor
 
-app = FastAPI(title="ShiftProof API", version="1.0.0")
+app = FastAPI(title="Placement Readiness API", version="1.0.0")
 predictor = None
 
 
 class RequestPayload(BaseModel):
     model_config = ConfigDict(extra="allow")
-    request_type: str | None = None
-    priority: str | None = None
-    channel: str | None = None
-    customer_tier: str | None = None
-    region: str | None = None
-    agent_experience_months: Any = None
-    queue_length: Any = None
-    estimated_work_hours: Any = None
-    historical_sla_rate: Any = None
-    attachments_count: Any = None
-    is_holiday: Any = None
-    system_load: Any = None
-    customer_complexity_score: Any = None
-    hour_of_day: Any = None
-    weekday: Any = None
-    days_since_last_request: Any = None
-    created_at: str
+    graduation_year: Any = 2026
+    branch: str | None = None
+    cgpa: Any = None
+    aptitude_score: Any = None
+    technical_skills_score: Any = None
+    communication_score: Any = None
+    coding_hours_per_week: Any = None
+    projects_completed: Any = None
+    internships_completed: Any = None
+    certifications_count: Any = None
+    backlogs: Any = None
 
 
 def get_predictor():
@@ -77,8 +71,8 @@ async def drift(file: UploadFile = File(...)):
         content = await file.read()
         from io import BytesIO
         new_df = pd.read_csv(BytesIO(content))
-        train_path = Path(__file__).resolve().parents[2] / "data" / "raw" / "requests.csv"
-        train_df = pd.read_csv(train_path).sort_values("created_at").head(int(len(pd.read_csv(train_path)) * 0.7))
+        train_path = Path(__file__).resolve().parents[2] / "data" / "raw" / "students.csv"
+        train_df = pd.read_csv(train_path).sort_values("graduation_year").head(int(len(pd.read_csv(train_path)) * 0.7))
         report = drift_report(train_df, new_df, NUMERIC_FEATURES, CATEGORICAL_FEATURES)
         return {"features": json.loads(report.to_json(orient="records"))}
     except Exception as exc:

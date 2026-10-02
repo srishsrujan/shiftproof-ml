@@ -7,13 +7,15 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.shiftproof.config import FEATURES, REPORT_DIR, TARGET
-from src.shiftproof.data_pipeline import time_split
-from src.shiftproof.predictor import Predictor
+sys.path.insert(0, str(ROOT / "src"))
+
+from shiftproof.config import FEATURES, REPORT_DIR, TARGET
+from shiftproof.data_pipeline import time_split
+from shiftproof.predictor import Predictor
 
 
 def run():
-    data_path = ROOT / "data" / "raw" / "requests.csv"
+    data_path = ROOT / "data" / "raw" / "students.csv"
     df = pd.read_csv(data_path)
     splits = time_split(df)
     predictor = Predictor()
@@ -40,7 +42,7 @@ def run():
     results.append({"test": "shifted_class_balance", "rows": len(pred), "failed": int(pred.isna().any(axis=1).sum())})
 
     # 3. Drop optional input columns: the cleaning layer inserts them as missing.
-    dropped = splits.test.drop(columns=["attachments_count", "days_since_last_request", "customer_complexity_score"])
+    dropped = splits.test.drop(columns=["certifications_count", "backlogs", "aptitude_score"])
     pred = predictor.predict_frame(dropped)
     results.append({"test": "dropped_columns", "rows": len(pred), "failed": int(pred.isna().any(axis=1).sum())})
 

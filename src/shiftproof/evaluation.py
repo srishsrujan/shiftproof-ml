@@ -1,6 +1,7 @@
 from pathlib import Path
 import numpy as np
 import pandas as pd
+from .config import TARGET
 from sklearn.metrics import (
     average_precision_score,
     brier_score_loss,
@@ -62,9 +63,9 @@ def slice_metrics(frame, probability, columns, threshold=0.5):
         for value, part in frame.groupby(col, dropna=False):
             idx = part.index.to_numpy()
             p = probability[idx]
-            y = part["late"].to_numpy().astype(int)
+            y = part[TARGET].to_numpy().astype(int)
             m = binary_metrics(y, p, threshold)
-            m.update({"slice": col, "value": str(value), "n": len(part), "late_rate": float(y.mean())})
+            m.update({"slice": col, "value": str(value), "n": len(part), "placement_ready_rate": float(y.mean())})
             output.append(m)
     return pd.DataFrame(output)
 
@@ -74,22 +75,8 @@ def analyse_failures(frame, probability, threshold=0.5, top_n=50):
     data["predicted_probability"] = probability
     data["predicted"] = (probability >= threshold).astype(int)
     data["confidence"] = np.maximum(probability, 1 - probability)
-    wrong = data[data["predicted"] != data["late"]].copy()
-    wrong["likely_cause"] = "model uncertainty around interacting workload signals"
-    wrong.loc[wrong["queue_length"].fillna(0) > wrong["queue_length"].median(), "likely_cause"] = "high queue pressure"
-    wrong.loc[wrong["system_load"].fillna(0) > wrong["system_load"].median(), "likely_cause"] = "high system load"
-    wrong.loc[wrong["historical_sla_rate"].fillna(1) < 0.72, "likely_cause"] = "weak historical SLA performance"
-    wrong.loc[wrong["customer_complexity_score"].fillna(0) > 0.72, "likely_cause"] = "high customer complexity"
-    wrong.loc[wrong["estimated_work_hours"].fillna(0) > wrong["estimated_work_hours"].median(), "likely_cause"] = "large estimated workload"
-    fix_map = {
-        "high queue pressure": "increase queue-related features or add a live backlog signal",
-        "high system load": "add recent load trend and capacity features",
-        "weak historical SLA performance": "recalibrate frequently and add customer/account-level history",
-        "high customer complexity": "add interaction-level complexity features and nonlinear model",
-        "large estimated workload": "improve work-hour estimation and include task dependency signals",
-        "model uncertainty around interacting workload signals": "collect more labelled outcomes and inspect borderline cases",
-    }
-    wrong["possible_fix"] = wrong["likely_cause"].map(fix_map).fillna("collect more representative labelled data")
+    wrong = data[data["predicted"] != data[TARGET]].copy()
+    wrong["error_type"] = np.where(wrong["predicted"] == 1, "false_positive", "false_negative")
     return wrong.sort_values("confidence").head(top_n)
 
 

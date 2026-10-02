@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from src.shiftproof.api import app
+from shiftproof.api import app
 
 
 client = TestClient(app)
@@ -13,25 +13,35 @@ def test_health_endpoint_after_training_artifact_exists():
     assert "status" in body
 
 
-def test_predict_accepts_badly_formatted_numeric_and_category_values():
+def test_predict_accepts_student_profile_inputs():
     response = client.post("/predict", json={
-        "request_type": "SUPPORT",
-        "priority": "URGENT",
-        "channel": "PORTAL",
-        "customer_tier": "STANDARD",
-        "region": "east",
-        "agent_experience_months": "12",
-        "queue_length": "31",
-        "estimated_work_hours": "4.5",
-        "historical_sla_rate": 0.7,
-        "attachments_count": 1,
-        "is_holiday": 0,
-        "system_load": 0.9,
-        "customer_complexity_score": 0.8,
-        "hour_of_day": 16,
-        "weekday": 2,
-        "days_since_last_request": 2,
-        "created_at": "2026-08-01T16:00:00"
+        "graduation_year": 2026,
+        "branch": "computer_science",
+        "cgpa": "8.1",
+        "aptitude_score": 72,
+        "technical_skills_score": 78,
+        "communication_score": 69,
+        "coding_hours_per_week": 12,
+        "projects_completed": 3,
+        "internships_completed": 1,
+        "certifications_count": 2,
+        "backlogs": 0,
     })
     assert response.status_code == 200
-    assert "decision" in response.json()
+    assert "readiness_score" in response.json()
+    assert response.json()["readiness_category"] in {"Ready", "Developing", "Needs support"}
+
+
+def test_predict_csv_preserves_student_ids():
+    csv_data = (
+        "student_id,graduation_year,branch,cgpa,aptitude_score,technical_skills_score,"
+        "communication_score,coding_hours_per_week,projects_completed,internships_completed,"
+        "certifications_count,backlogs\n"
+        "STU-001,2026,computer_science,8.1,72,78,69,12,3,1,2,0\n"
+    )
+    response = client.post(
+        "/predict_csv",
+        files={"file": ("students.csv", csv_data, "text/csv")},
+    )
+    assert response.status_code == 200
+    assert response.json()["rows"][0]["student_id"] == "STU-001"
